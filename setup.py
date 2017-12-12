@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 TESTS_REQUIRE = []
-INSTALL_REQUIRES = []
+INSTALL_REQUIRES = ['requests', ]
 
 
 setup(
@@ -17,4 +17,7 @@ setup(
     package_dir={"": "src"},
     install_requires=INSTALL_REQUIRES,
     tests_require=TESTS_REQUIRE,
+    entry_points={
+        "console_scripts": ["dopamine = dopamine.entry_point:main"]
+    },
 )

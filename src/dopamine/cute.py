@@ -22,7 +22,6 @@ from dopamine.constants import (
 )
 
 LOG = logging.getLogger(__name__)
-IMAGE_ONLY = True
 LOG_LEVEL = 'INFO'  # Log output level
 
 
@@ -72,7 +71,7 @@ class TestUrl(threading.Thread):
                             self.url_list.append(redirect_url)
 
 
-def run():
+def run(image_only=False):
     """Find and open a cute link."""
 
     # Randomly select an index for each type
@@ -173,7 +172,7 @@ def run():
         sys.exit(1)
     else:
         link_url = good_links[random.randint(0, len(good_links) - 1)]
-        if IMAGE_ONLY:
+        if image_only:
             LOG.info('Image Source: "%s"', link_map[link_url])
             LOG.debug(u'Opening {0}'.format(link_url))
             webbrowser.open(link_url)
@@ -181,19 +180,3 @@ def run():
             LOG.info('Image Only Link: "%s"', link_url)
             LOG.debug(u'Opening {0}'.format(link_url))
             webbrowser.open(link_map[link_url])
-
-
-if __name__ == "__main__":
-    logger = logging.getLogger("__main__")
-    handler = logging.StreamHandler()
-    handler.setLevel(LOG_LEVEL)
-    formatter = logging.Formatter(
-        "%(levelname)8s - %(asctime)15s %(message)s %(name)s:%(lineno)s",
-        "%Y-%m-%d %H:%M:%S"
-    )
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-    logger.setLevel(LOG_LEVEL)
-
-    run()
-    sys.exit(0)
