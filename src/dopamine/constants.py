@@ -89,7 +89,11 @@ EXCLUDE = (
 # Strings that shouldn't appear in any URLs:
 URL_EXCLUDE = (
     '?show_error=true',
+    'amazon',
+    'etsy',
     'google.com/search',
+    'item',
+    'product',
     'redtube',
     'teepublic',
     'tube8',
