@@ -108,3 +108,10 @@ BAD_URL_RE = re.compile(RE_STR)
 
 JSON_RE = re.compile(r'{.+?}')
 """Regex to find JSON in page."""
+
+KITTEN = (
+    '      |\__/,|   (`\\\n'
+    '    _.|o o  |_   ) )\n'
+    '---(((---(((---------'
+)
+"""Important Art"""

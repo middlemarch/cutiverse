@@ -148,6 +148,7 @@ def cli():
     )
     parsed_args = parser.parse_args()
     logging_init(parsed_args.log_level, logfile=parsed_args.logfile)
+    LOG.info('Welcome to Dopamine!\n#c<%s>', constants.KITTEN)
     run(image_only=parsed_args.image_only,
         threads=parsed_args.threads,
         noun=parsed_args.noun)
