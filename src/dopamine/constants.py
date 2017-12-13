@@ -1,3 +1,5 @@
+"""Static Variables"""
+from __future__ import unicode_literals
 import re
 
 THREADS = 8  # Threads to use when checking URLS

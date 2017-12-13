@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 TESTS_REQUIRE = []
-INSTALL_REQUIRES = ['requests', ]
+INSTALL_REQUIRES = ['requests', 'log_color', ]
 
 
 setup(

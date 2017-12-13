@@ -1,4 +1,6 @@
 """Walleter command line entry point."""
+from __future__ import unicode_literals
+
 # Standard
 import os
 import argparse
@@ -8,7 +10,10 @@ import pkg_resources
 import sys
 from logging.config import dictConfig
 
+from log_color import ColorFormatter, ColorStripper
+
 from dopamine.cute import run
+from dopamine import constants
 
 LOG = logging.getLogger(__name__)
 
@@ -44,10 +49,12 @@ def logging_init(level, logfile=None, verbose=False):
         'disable_existing_loggers': True,
         'formatters': {
             'ConsoleFormatter': {
+                '()': ColorFormatter,
                 'format': '%(levelname)s: %(message)s',
                 'datefmt': '%Y-%m-%d %H:%M:%S',
             },
             'FileFormatter': {
+                '()': ColorStripper,
                 'format': ("%(levelname)-8s: %(asctime)s '%(message)s' "
                            '%(name)s:%(lineno)s'),
                 'datefmt': '%Y-%m-%d %H:%M:%S',
@@ -100,6 +107,23 @@ def cli():
         help="Open the image directly instead of the website"
     )
     parser.add_argument(
+        "-t",
+        "--threads",
+        action='store',
+        dest="threads",
+        type=int,
+        default=constants.THREADS,
+        help="Number of concurrent threads to use when testing potential sites"
+    )
+    parser.add_argument(
+        "-n",
+        "--noun",
+        action='store',
+        dest="noun",
+        default=None,
+        help="Use a specific noun instead of randomly selecting one"
+    )
+    parser.add_argument(
         "-V",
         "--version",
         dest="version",
@@ -124,7 +148,9 @@ def cli():
     )
     parsed_args = parser.parse_args()
     logging_init(parsed_args.log_level, logfile=parsed_args.logfile)
-    run(image_only=parsed_args.image_only)
+    run(image_only=parsed_args.image_only,
+        threads=parsed_args.threads,
+        noun=parsed_args.noun)
     LOG.debug(u"#g<\u2713> Complete!.")
     sys.exit(0)
 
