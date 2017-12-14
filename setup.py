@@ -6,7 +6,7 @@ INSTALL_REQUIRES = ['requests', 'log_color', ]
 
 
 setup(
-    name="dopamine",
+    name="dopameme",
     author="Sparkle Wonder",
     author_email="sekret@gmail.com",
     description="Get a quick dopamine hit of cuteness",
@@ -18,6 +18,6 @@ setup(
     install_requires=INSTALL_REQUIRES,
     tests_require=TESTS_REQUIRE,
     entry_points={
-        "console_scripts": ["dopamine = dopamine.entry_point:main"]
+        "console_scripts": ["dopameme = dopameme.entry_point:main"]
     },
 )

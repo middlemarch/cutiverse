@@ -12,7 +12,7 @@ import webbrowser
 import requests
 
 # Project
-from dopamine.constants import (
+from dopameme.constants import (
     ADJECTIVES,
     NOUNS,
     MODIFIERS,
@@ -20,7 +20,7 @@ from dopamine.constants import (
     BAD_URL_RE,
     JSON_RE,
 )
-from dopamine.testlib import TestUrl
+from dopameme.testlib import TestUrl
 
 LOG = logging.getLogger(__name__)
 LOG_LEVEL = 'INFO'  # Log output level

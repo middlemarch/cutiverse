@@ -12,15 +12,15 @@ from logging.config import dictConfig
 
 from log_color import ColorFormatter, ColorStripper
 
-from dopamine.cute import run
-from dopamine import constants
+from dopameme.cute import run
+from dopameme import constants
 
 LOG = logging.getLogger(__name__)
 
 # Setup the version string globally
 try:
     pkg_version = "%(prog)s {0}".format(
-        pkg_resources.get_distribution("dopamine").version
+        pkg_resources.get_distribution("dopameme").version
     )
 except pkg_resources.DistributionNotFound:
     pkg_version = '%(prog)s Development'
@@ -68,7 +68,7 @@ def logging_init(level, logfile=None, verbose=False):
             },
         },
         'loggers': {
-            'dopamine': {
+            'dopameme': {
                 'handlers': handlers,
                 'level': 'DEBUG' if verbose else level,
                 'propagate': False,
@@ -148,7 +148,7 @@ def cli():
     )
     parsed_args = parser.parse_args()
     logging_init(parsed_args.log_level, logfile=parsed_args.logfile)
-    LOG.info('Welcome to Dopamine!\n#c<%s>', constants.KITTEN)
+    LOG.info('Welcome to Dopameme!\n#c<%s>', constants.KITTEN)
     run(image_only=parsed_args.image_only,
         threads=parsed_args.threads,
         noun=parsed_args.noun)
