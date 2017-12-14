@@ -12,6 +12,7 @@ ADJECTIVES = (
     'charming',
     'cute',
     'darling',
+    'pygmy',
     'kawaii',
     'little',
     'snuggly',
