@@ -1,18 +1,15 @@
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import
 
 # Standard Library
 import logging
 import threading
-
-# Third Party
-import requests
 
 LOG = logging.getLogger(__name__)
 
 
 class TestUrl(threading.Thread):
 
-    def __init__(self, url, url_list, *args, **kwargs):
+    def __init__(self, session, url, url_list, *args, **kwargs):
         """
         Test a url.
 
@@ -23,14 +20,14 @@ class TestUrl(threading.Thread):
         """
         self.url = url
         self.url_list = url_list
-        self.session = requests.Session()
+        self.session = session
         super(TestUrl, self).__init__(*args, **kwargs)
 
     def run(self):
         """Execute the thread."""
         LOG.debug('Testing #y<%s>', self.url)
         try:
-            r = self.session.head(self.url)
+            r = self.session.head(self.url, timeout=0.5)
         except Exception:
             pass  # Probably a bad url yo
         else:
