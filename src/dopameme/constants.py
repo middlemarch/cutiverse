@@ -1,9 +1,7 @@
 """Static Variables"""
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import
 import re
 
-THREADS = 8  # Threads to use when checking URLS
-"""Default concurrency setting."""
 
 ADJECTIVES = (
     'adorable',
@@ -12,11 +10,14 @@ ADJECTIVES = (
     'charming',
     'cute',
     'darling',
-    'pygmy',
     'kawaii',
     'little',
+    'pygmy',
+    'small',
+    'smol',
     'snuggly',
     'sweet',
+    'teensy',
     'tiny',
 )
 """Search term - adjectives."""
@@ -24,18 +25,18 @@ ADJECTIVES = (
 NOUNS = (
     'alpaca',
     'axolotl',
-    'baby duck',
-    'baby sloth',
     'bear',
     'bird',
     'birdy',
     'bunny',
+    'butterfly',
     'cat',
     'deer',
     'doe',
     'dog',
     'doggie',
     'dolphin',
+    'duck',
     'duckling',
     'echidna',
     'fawn',
@@ -51,12 +52,17 @@ NOUNS = (
     'owl',
     'pangolin',
     'piggy',
+    'pony',
+    'pupper',
     'puppy',
     'quokka',
     'rabbit',
     'raccoon',
     'seal',
+    'sloth',
     'squirrel',
+    'toad',
+    'tortoise',
     'turtle',
     'wolf pup',
     'wolf',
@@ -64,13 +70,16 @@ NOUNS = (
 """Search term - nouns."""
 
 MODIFIERS = (
-    'cuddle',
     'cuddling',
-    'hat',
-    'house',
+    'wearing a hat',
+    'in a house',
     'playing',
     'sleeping',
     'wearing onesie',
+    'in a cup',
+    'on a hill',
+    'purring',
+    'whimpering',
 )
 """Optional search terms - modifiers."""
 
@@ -84,6 +93,8 @@ EXCLUDE = (
     '-shit',
     '-ugly',
     '-xxx',
+    '-rotten',
+    '-horrible',
 )
 """Terms to exclude from searches"""
 
@@ -111,11 +122,11 @@ RE_STR = r'^.+?({0}).+?'.format('|'.join([re.escape(x) for x in URL_EXCLUDE]))
 BAD_URL_RE = re.compile(RE_STR)
 """Compiled regular expression of bad url substrings."""
 
-JSON_RE = re.compile(r'{.+?}')
-"""Regex to find JSON in page."""
+GOOGLE_IMG_RE = re.compile(r'https?.+[.](?:jpg|jpeg|png|webp|gif|tiff)')
+"""Match image url destinations in google image results."""
 
 KITTEN = (
-    '      |\__/,|   (`\\\n'
+    '      |\\__/,|   (`\\\n'
     '    _.|o o  |_   ) )\n'
     '---(((---(((---------'
 )

@@ -1,5 +1,4 @@
-"""Walleter command line entry point."""
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import
 
 # Standard
 import os
@@ -99,23 +98,6 @@ def cli():
         description="Find amazingly cute things!",
     )
     parser.add_argument(
-        "-o",
-        "--image-only",
-        action='store_true',
-        dest="image_only",
-        default=False,
-        help="Open the image directly instead of the website"
-    )
-    parser.add_argument(
-        "-t",
-        "--threads",
-        action='store',
-        dest="threads",
-        type=int,
-        default=constants.THREADS,
-        help="Number of concurrent threads to use when testing potential sites"
-    )
-    parser.add_argument(
         "-n",
         "--noun",
         action='store',
@@ -149,9 +131,7 @@ def cli():
     parsed_args = parser.parse_args()
     logging_init(parsed_args.log_level, logfile=parsed_args.logfile)
     LOG.info('Welcome to Dopameme!\n#c<%s>', constants.KITTEN)
-    run(image_only=parsed_args.image_only,
-        threads=parsed_args.threads,
-        noun=parsed_args.noun)
+    run(noun=parsed_args.noun)
     LOG.debug(u"#g<\u2713> Complete!.")
     sys.exit(0)
 
