@@ -1,9 +1,8 @@
-from __future__ import unicode_literals, absolute_import
-
-# Standard Library
+# Standard
 import logging
 import multiprocessing
 import random
+from urllib.parse import urlparse
 
 # Third Party
 from requests import Session
@@ -21,7 +20,7 @@ retry_strategy = Retry(
     total=3,
     backoff_factor=1,
     status_forcelist=[429, 408, 502, 503, 504],
-    method_whitelist=['HEAD', 'GET', 'PUT', 'POST', 'PATCH', 'DELETE']
+    method_whitelist=["HEAD", "GET", "PUT", "POST", "PATCH", "DELETE"],
 )
 
 # Instantiate a 'global' HTTPAdapter to allow connection pooling.
@@ -32,29 +31,38 @@ adapter = HTTPAdapter(
 )
 
 
-class BaseSearchBackend(object):
-
+class BaseSearchBackend:
     def __init__(self, search_obj):
         # Setup a requests session
         self.session = Session()
-        self.session.mount('http://', adapter)
-        self.session.mount('https://', adapter)
+        self.session.mount("http://", adapter)
+        self.session.mount("https://", adapter)
         self.threads = multiprocessing.cpu_count()
 
         # Add a fake header
-        self.session.headers.update({
-            'User-Agent': (
-                'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36'
-                ' (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36'
-            )
-        })
+        self.session.headers.update(
+            {
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36"
+                    " (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36"
+                )
+            }
+        )
 
         self.search_obj = search_obj
 
     @staticmethod
     def is_good(url):
-        """Ensure given URL doesn't contain uncute language."""
+        """Ensure given URL doesn't contain uncute language and is valid."""
         if BAD_URL_RE.match(url):
+            return False
+        try:
+            parsed_url = urlparse(url)
+        except Exception:
+            LOG.debug("Ignoring invalid url %s", url)
+            return False
+        if parsed_url.scheme not in ("http", "https"):
+            LOG.debug("Ignoring url with invalid scheme %s", url)
             return False
         return True
 
