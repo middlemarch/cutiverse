@@ -1,6 +1,4 @@
-from __future__ import unicode_literals, absolute_import
-
-# Standard Library
+# Standard
 import logging
 import threading
 
@@ -8,7 +6,6 @@ LOG = logging.getLogger(__name__)
 
 
 class TestUrl(threading.Thread):
-
     def __init__(self, session, url, url_list, *args, **kwargs):
         """
         Test a url.
@@ -21,11 +18,11 @@ class TestUrl(threading.Thread):
         self.url = url
         self.url_list = url_list
         self.session = session
-        super(TestUrl, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def run(self):
         """Execute the thread."""
-        LOG.debug('Testing #y<%s>', self.url)
+        LOG.debug("Testing #y<%s>", self.url)
         try:
             r = self.session.head(self.url, timeout=0.5)
         except Exception:
@@ -36,8 +33,7 @@ class TestUrl(threading.Thread):
                     self.url_list.append(r.url)
                 else:
                     redirect_url = r.url
-                    LOG.debug('#y<%s> redirects to #y<%s>',
-                              self.url, redirect_url)
+                    LOG.debug("#y<%s> redirects to #y<%s>", self.url, redirect_url)
                     try:
                         r = self.session.head(redirect_url)
                     except Exception:

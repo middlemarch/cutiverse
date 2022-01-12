@@ -1,9 +1,19 @@
 ENV_DIR=.env
+PYTHON=python3
 
 ifeq ($(OS),Windows_NT)
 	IN_ENV=. $(ENV_DIR)/Scripts/activate &&
 else
 	IN_ENV=. $(ENV_DIR)/bin/activate &&
+endif
+
+# Some distros need to use pip3 as the entrypoint
+ifneq (, $(shell which pip3))
+PIP_CMD=pip3
+else ifneq (, $(shell which pip))
+PIP_CMD=pip
+else
+$(error "Python's pip not found on $(PATH)")
 endif
 
 all: test lint docs artifacts
@@ -13,37 +23,38 @@ env: $(ENV_DIR)
 test: build
 	$(IN_ENV) tox
 
-artifacts: build_reqs sdist wheel
+artifacts: build-reqs sdist wheel
 
 $(ENV_DIR):
-	virtualenv -p python $(ENV_DIR)
+	virtualenv -p $(PYTHON) $(ENV_DIR)
 
-build_reqs: env
-	$(IN_ENV) pip install sphinx pep8 coverage nose wheel twine tox
+build-reqs: env
+	$(IN_ENV) $(PIP_CMD) install build sphinx wheel twine setuptools_scm
 
-build: build_reqs
-	$(IN_ENV) pip install --editable .
+build: build-reqs
+	$(IN_ENV) $(PIP_CMD) install --editable .[dev]
 
-sdist: build_reqs
-	$(IN_ENV) python setup.py sdist
+sdist: build-reqs
+	$(IN_ENV) $(PYTHON) -m build --no-isolation --sdist
 
-wheel: build_reqs
-	$(IN_ENV) python setup.py bdist_wheel
+wheel: build-reqs
+	$(IN_ENV) $(PYTHON) -m build --no-isolation --wheel
 
-lint: pep8
+format-code:
+	$(IN_ENV) black -l 119 src/ docs/source/conf.py setup.py
 
-pep8: build_reqs
-	- $(IN_ENV) pep8 src/dopameme > pep8.out
+check-code:
+	$(IN_ENV) black --check -l 119 src/ docs/source/conf.py setup.py
 
-docs: build_reqs
-	$(IN_ENV) pip install -r docs/requirements.txt
+docs: build-reqs
+	$(IN_ENV) $(PIP_CMD) install -r docs/requirements.txt
 	$(IN_ENV) $(MAKE) -C docs html
 
 publish: artifacts
 	$(IN_ENV) twine upload dist/*
 
 freeze: env
-	- $(IN_ENV) pip freeze
+	- $(IN_ENV) $(PIP_CMD) freeze
 
 clean:
 	- @rm -rf BUILD
@@ -65,7 +76,7 @@ clean:
 	- find -name '*.pyd' -delete
 	- find -name '*__pycache__*' -delete
 
-env_clean: clean
+env-clean: clean
 	- @rm -rf .env*
 	- @rm -rf $(ENV_DIR)
 	- @rm -rf .tox
