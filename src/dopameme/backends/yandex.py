@@ -2,6 +2,7 @@
 import logging
 import re
 import uuid
+from typing import List
 
 # Project
 from dopameme.backends.base import BaseSearchBackend
@@ -11,7 +12,7 @@ URL_RE = re.compile(r"{\"url\"\:\"https?://[^\"]+[.](?:jpg|jpeg|png|webp|gif|tif
 
 
 class YandexBackend(BaseSearchBackend):
-    def get_links(self):
+    def get_links(self) -> List[str]:
         # Retrieve search results
         r = self.session.get(
             "https://yandex.com/images/search",
