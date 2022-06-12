@@ -16,12 +16,9 @@ else
 $(error "Python's pip not found on $(PATH)")
 endif
 
-all: test lint docs artifacts
+all: lint docs artifacts
 
 env: $(ENV_DIR)
-
-test: build
-	$(IN_ENV) tox
 
 artifacts: build-reqs sdist wheel
 

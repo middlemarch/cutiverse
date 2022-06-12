@@ -106,7 +106,7 @@ class BaseSearchBackend:
             self.threads = threads
 
         self.user_agent = get_user_agent()  # Get a random new useragent string every time
-        LOG.debug("Using user agent string: %s", self.user_agent)
+        LOG.debug("Searching with user-agent: #y<%s>", self.user_agent)
 
         # Add a fake header
         self.session.headers.update({"User-Agent": self.user_agent})
@@ -136,6 +136,14 @@ class BaseSearchBackend:
         """Return a list of good tested urls."""
         links = [x for x in self.get_links() if self.is_good(x)]
 
+        # Create a new session to actually test URL values with
+        test_session = Session()
+        test_session.mount("http://", adapter)
+        test_session.mount("https://", adapter)
+        test_agent = get_user_agent()
+        LOG.debug("Testing potential urls with user-agent: #y<%s>", test_agent)
+        test_session.headers.update({"User-Agent": test_agent})
+
         # Randomly select some links and test them in parallel
         good_links = []  # Global link list (appending to lists is threadsafe)
         while True:
@@ -149,7 +157,7 @@ class BaseSearchBackend:
                 except IndexError:
                     continue
 
-                t = TestUrl(self.session, url, good_links)
+                t = TestUrl(test_session, url, good_links)
                 t.start()
                 thread_pool.append(t)
 
