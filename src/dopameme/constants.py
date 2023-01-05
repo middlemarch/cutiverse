@@ -15,7 +15,6 @@ ADJECTIVES = (
     "pygmy",
     "small",
     "smol",
-    "smooshy",
     "snuggly",
     "softest",
     "sweet",
@@ -113,12 +112,15 @@ URL_EXCLUDE = (
     "amazon",
     "etsy",
     "goldporntube",
+    "xvideos",
     "google.com/search",
     "item",
     "pornhub",
     "pornography",
     "product",
     "redtube",
+    "spermyporn",  # Hilarious but why does this keep coming up on bing?
+    "i.ytimg.com",  # Avoid youtube thumbnail images
     "teepublic",
     "tube8",
     "xhampster",

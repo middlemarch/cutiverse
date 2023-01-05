@@ -32,7 +32,7 @@ class SearchObj:
         self.modifier = kwargs.get("modifier", rand_mod) or rand_mod
 
     @property
-    def default_str(self):
+    def default_str(self) -> str:
         term_list = []
         term_list.extend(self.adjective.split(" "))
         term_list.extend(self.noun.split(" "))
@@ -42,7 +42,7 @@ class SearchObj:
         return " ".join(term_list)
 
     @property
-    def display_str(self):
+    def display_str(self) -> str:
         """A printable representation of the search terms."""
         term_list = []
         term_list.extend(self.adjective.split(" "))

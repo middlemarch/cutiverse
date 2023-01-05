@@ -103,7 +103,19 @@ def cli():
         help="Use a specific noun instead of randomly selecting one",
     )
     parser.add_argument(
-        "-V", "--version", dest="version", action="version", version=pkg_version, help="Display the version number."
+        "-V",
+        "--version",
+        dest="version",
+        action="version",
+        version=pkg_version,
+        help="Display the version number.",
+    )
+    parser.add_argument(
+        "--backend",
+        dest="backend",
+        choices=("duckduckgo", "yandex"),
+        help="Select the image search backend to use",
+        default="duckduckgo",
     )
     parser.add_argument(
         "-l",
@@ -114,13 +126,17 @@ def cli():
         dest="log_level",
     )
     parser.add_argument(
-        "-L", "--logfile", dest="logfile", default=None, help="Location to place a log of the process output"
+        "-L",
+        "--logfile",
+        dest="logfile",
+        default=None,
+        help="Location to place a log of the process output",
     )
     parsed_args = parser.parse_args()
     logging_init(parsed_args.log_level, logfile=parsed_args.logfile)
-    LOG.info("Welcome to Dopameme!\n#c<%s>", constants.KITTEN)
-    run(noun=parsed_args.noun)
-    LOG.debug("#g<\u2713> Complete!.")
+    LOG.info("Welcome to #y<D>#b<o>#g<p>#c<a>#y<e>#b<m>#g<e>#w<!>\n#c<%s>", constants.KITTEN)
+    run(noun=parsed_args.noun, backend=parsed_args.backend)
+    LOG.info("#g<\u2713> Cuteness obtained!.")
     sys.exit(0)
 
 
